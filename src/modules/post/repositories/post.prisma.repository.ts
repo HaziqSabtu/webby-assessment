@@ -10,8 +10,21 @@ export class PostPrismaRepository implements PostRepository {
   async findAll(): Promise<Post[]> {
     const data = await this.prisma.post.findMany({
       where: { deletedAt: null },
+      include: {
+        postTags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
     });
 
-    return data.map((post) => new Post(post));
+    return data.map((post) => {
+      const tags = post.postTags.map((postTag) => postTag.tag);
+      return new Post({
+        ...post,
+        tags,
+      });
+    });
   }
 }
