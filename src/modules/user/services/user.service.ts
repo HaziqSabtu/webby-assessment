@@ -25,4 +25,14 @@ export class UserService {
 
     return user;
   }
+
+  async findOneOrFailById(id: string): Promise<User> {
+    const user = await this.userRepository.findOneById(id);
+
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+
+    return user;
+  }
 }

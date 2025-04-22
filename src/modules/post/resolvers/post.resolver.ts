@@ -1,17 +1,43 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { PostService } from '../services/post.service';
 import { Post } from '../entities/post.entity';
 import { CreatePostInput } from '../dto/create-post.input';
 import { UpdatePostInput } from '../dto/update-post.input';
 
+import { User } from '../../user/entities/user.entity';
+import { UserService } from '../../user/services/user.service';
+import { NotFoundException } from '@nestjs/common';
+
 @Resolver(() => Post)
 export class PostResolver {
-  constructor(private readonly postService: PostService) {}
+  constructor(
+    private readonly postService: PostService,
+    private readonly userService: UserService,
+  ) {}
 
   // @Mutation(() => Post)
   // createPost(@Args('createPostInput') createPostInput: CreatePostInput) {
   //   return this.postService.create(createPostInput);
   // }
+
+  @ResolveField(() => User, { name: 'author' })
+  async resolveAuthor(@Parent() post: Post): Promise<User> {
+    const user = await this.userService.findOneOrFailById(post.authorId);
+
+    if (!user) {
+      throw new NotFoundException(`User with id ${post.authorId} not found`);
+    }
+
+    return user;
+  }
 
   @Query(() => [Post], { name: 'posts' })
   findAll() {

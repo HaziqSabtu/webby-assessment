@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Tag } from './tag.entity';
+import { User } from '../../user/entities/user.entity';
 
 @ObjectType()
 export class Post {
@@ -12,8 +13,8 @@ export class Post {
   @Field({ nullable: false })
   content: string;
 
-  // @Field({ nullable: false })
-  // @authorId: string;
+  @Field({ nullable: false })
+  authorId: string;
 
   @Field({ nullable: false })
   createdAt: Date;
@@ -24,10 +25,14 @@ export class Post {
   @Field(() => [Tag])
   tags?: Tag[];
 
+  @Field(() => User)
+  author: User;
+
   constructor({
     id,
     title,
     content,
+    authorId,
     createdAt,
     updatedAt,
     tags,
@@ -35,6 +40,7 @@ export class Post {
     id: string;
     title: string;
     content: string;
+    authorId: string;
     createdAt: Date;
     updatedAt: Date;
     tags: Tag[];
@@ -45,5 +51,6 @@ export class Post {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.tags = tags;
+    this.authorId = authorId;
   }
 }

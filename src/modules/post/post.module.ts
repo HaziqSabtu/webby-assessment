@@ -10,7 +10,10 @@ import { TagService } from './services/tag.service';
 import { TagRepository } from './repositories/tag.repository';
 import { TagPrismaRepository } from './repositories/tag.prisma.repository';
 
+import { UserModule } from '../user/user.module';
+
 @Module({
+  imports: [UserModule],
   providers: [
     PostResolver,
     PostService,
