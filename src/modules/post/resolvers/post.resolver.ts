@@ -10,12 +10,14 @@ import { PostService } from '../services/post.service';
 import { Post } from '../entities/post.entity';
 import { CreatePostInput } from '../dto/create-post.input';
 import { UpdatePostInput } from '../dto/update-post.input';
+import { RemovePostInput } from '../dto/remove-post.input';
 import { AssignTagInput } from '../dto/assign-tag.input';
 import { RemoveTagInput } from '../dto/remove-tag.input';
 
 import { User } from '../../user/entities/user.entity';
 import { UserService } from '../../user/services/user.service';
 import { NotFoundException } from '@nestjs/common';
+
 import { UserCtx } from '../../../common/decorators/user.decorator';
 import { AuthUser } from 'src/common/interfaces/auth.interface';
 
@@ -59,24 +61,46 @@ export class PostResolver {
   }
 
   @Mutation(() => Post)
-  updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput) {
-    return this.postService.update(updatePostInput.id, updatePostInput);
+  updatePost(
+    @Args('updatePostInput') updatePostInput: UpdatePostInput,
+    @UserCtx() user: AuthUser,
+  ) {
+    return this.postService.update({
+      ...updatePostInput,
+      userId: user.userId,
+    });
   }
 
   @Mutation(() => Post)
-  removePost(@Args('id') id: string) {
-    return this.postService.remove(id);
+  removePost(
+    @Args('removePostInput') removePostInput: RemovePostInput,
+    @UserCtx() user: AuthUser,
+  ) {
+    return this.postService.remove({
+      ...removePostInput,
+      userId: user.userId,
+    });
   }
 
   @Mutation(() => Post)
-  assignTag(@Args('assignTagInput') assignTagInput: AssignTagInput) {
-    const { id, tagId } = assignTagInput;
-    return this.postService.assignTag(id, tagId);
+  assignTag(
+    @Args('assignTagInput') assignTagInput: AssignTagInput,
+    @UserCtx() user: AuthUser,
+  ) {
+    return this.postService.assignTag({
+      ...assignTagInput,
+      userId: user.userId,
+    });
   }
 
   @Mutation(() => Post)
-  removeTag(@Args('removeTagInput') removeTagInput: RemoveTagInput) {
-    const { id, tagId } = removeTagInput;
-    return this.postService.removeTag(id, tagId);
+  removeTag(
+    @Args('removeTagInput') removeTagInput: RemoveTagInput,
+    @UserCtx() user: AuthUser,
+  ) {
+    return this.postService.removeTag({
+      ...removeTagInput,
+      userId: user.userId,
+    });
   }
 }
