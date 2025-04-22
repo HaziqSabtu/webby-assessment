@@ -8,26 +8,8 @@ export class Tag {
   @Field({ nullable: false })
   name: string;
 
-  @Field({ nullable: false })
-  createdAt: Date;
-
-  @Field({ nullable: false })
-  updatedAt: Date;
-
-  constructor({
-    id,
-    name,
-    createdAt,
-    updatedAt,
-  }: {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-  }) {
+  constructor({ id, name }: { id: number; name: string }) {
     this.id = id;
     this.name = name;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
   }
 }

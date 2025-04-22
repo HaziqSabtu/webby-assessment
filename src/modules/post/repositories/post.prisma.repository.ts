@@ -23,16 +23,12 @@ export class PostPrismaRepository implements PostRepository {
     const data = await this.prisma.post.findMany({
       where: { deletedAt: null },
       include: {
-        postTags: {
-          include: {
-            tag: true,
-          },
-        },
+        tags: true,
       },
     });
 
     return data.map((post) => {
-      const tags = post.postTags.map((postTag) => postTag.tag);
+      const tags = post.tags;
       return new Post({
         ...post,
         tags,
@@ -44,11 +40,7 @@ export class PostPrismaRepository implements PostRepository {
     const data = await this.prisma.post.findUnique({
       where: { id },
       include: {
-        postTags: {
-          include: {
-            tag: true,
-          },
-        },
+        tags: true,
       },
     });
 
@@ -56,7 +48,7 @@ export class PostPrismaRepository implements PostRepository {
       return null;
     }
 
-    const tags = data.postTags.map((postTag) => postTag.tag);
+    const tags = data.tags;
     return new Post({
       ...data,
       tags,
@@ -71,11 +63,7 @@ export class PostPrismaRepository implements PostRepository {
         content: data.content,
       },
       include: {
-        postTags: {
-          include: {
-            tag: true,
-          },
-        },
+        tags: true,
       },
     });
 
@@ -89,11 +77,7 @@ export class PostPrismaRepository implements PostRepository {
         deletedAt: new Date(),
       },
       include: {
-        postTags: {
-          include: {
-            tag: true,
-          },
-        },
+        tags: true,
       },
     });
 

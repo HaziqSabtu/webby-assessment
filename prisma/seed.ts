@@ -10,7 +10,6 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Clean current database
-  await prisma.postTag.deleteMany({});
   await prisma.tag.deleteMany({});
   await prisma.post.deleteMany({});
   await prisma.userProfile.deleteMany({});
@@ -54,6 +53,7 @@ async function main() {
       .sort(() => Math.random() - 0.5)
       .slice(0, randomPostsLength);
 
+    // Create posts for each user
     const posts = await prisma.post.createManyAndReturn({
       data: shuffledPosts.map((post) => {
         return {
@@ -63,20 +63,22 @@ async function main() {
       }),
     });
 
+    // Connect random tags to each post
     for (const post of posts) {
       const randomTagsLength = Math.floor(Math.random() * tagsMock.length);
       const shuffledTags = [...tags]
         .sort(() => Math.random() - 0.5)
         .slice(0, randomTagsLength);
 
-      for (const tag of shuffledTags) {
-        await prisma.postTag.create({
-          data: {
-            postId: post.id,
-            tagId: tag.id,
+      // Connect tags to post in one update operation
+      await prisma.post.update({
+        where: { id: post.id },
+        data: {
+          tags: {
+            connect: shuffledTags.map((tag) => ({ id: tag.id })),
           },
-        });
-      }
+        },
+      });
     }
   }
 }
