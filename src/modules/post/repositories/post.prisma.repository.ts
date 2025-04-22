@@ -38,7 +38,7 @@ export class PostPrismaRepository implements PostRepository {
 
   async findOne(id: string): Promise<Post | null> {
     const data = await this.prisma.post.findUnique({
-      where: { id },
+      where: { id, deletedAt: null },
       include: {
         tags: true,
       },
