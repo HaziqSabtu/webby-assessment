@@ -2,12 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Post {
+type User {
   id: ID!
-  title: String!
-  content: String!
+  username: String!
+  email: String!
   createdAt: DateTime!
-  updatedAt: DateTime!
 }
 
 """
@@ -18,11 +17,58 @@ scalar DateTime
 type Tag {
   id: Int!
   name: String!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  content: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  tags: [Tag!]!
+  author: User!
 }
 
 type Query {
-  post: [Post!]!
-  tag: [Tag!]!
+  posts: [Post!]!
+  post(id: String!): Post!
+  tags: [Tag!]!
+}
+
+type Mutation {
+  createPost(createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(removePostInput: RemovePostInput!): Post!
+  assignTag(assignTagInput: AssignTagInput!): Post!
+  removeTag(removeTagInput: RemoveTagInput!): Post!
+  createTag(createTagInput: CreateTagInput!): Tag!
+}
+
+input CreatePostInput {
+  title: String!
+  content: String!
+}
+
+input UpdatePostInput {
+  title: String
+  content: String
+  id: String!
+}
+
+input RemovePostInput {
+  id: String!
+}
+
+input AssignTagInput {
+  id: String!
+  tagId: Int!
+}
+
+input RemoveTagInput {
+  id: String!
+  tagId: Int!
+}
+
+input CreateTagInput {
+  name: String!
 }
