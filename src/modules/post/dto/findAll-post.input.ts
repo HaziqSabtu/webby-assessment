@@ -19,4 +19,10 @@ export class FindAllPostInput {
   @MinLength(1)
   @Field({ nullable: true })
   cursor?: string;
+
+  @IsOptional()
+  @IsString()
+  @MinLength(1)
+  @Field({ nullable: true })
+  authorId?: string;
 }

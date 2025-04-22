@@ -27,11 +27,12 @@ export class PostPrismaRepository implements PostRepository {
   async findAll(
     params: findAllInput,
   ): Promise<{ posts: Post[]; nextCursor: string | null }> {
-    const { searchText, tagId, cursor, take = 10 } = params;
+    const { searchText, tagId, cursor, authorId, take = 10 } = params;
 
     const data = await this.prisma.post.findMany({
       where: {
         deletedAt: null,
+        authorId: authorId ? authorId : undefined,
         OR: searchText
           ? [
               { title: { contains: searchText } },

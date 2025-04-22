@@ -15,6 +15,7 @@ export type findAllInput = {
   searchText?: string;
   tagId?: number;
   cursor?: string;
+  authorId?: string;
   take?: number;
 };
 
