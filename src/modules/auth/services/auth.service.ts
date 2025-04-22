@@ -11,7 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 export interface SignInResponse {
   token: string;
   expiresAt: Date;
-  user: Pick<User, 'id' | 'username' | 'email'>;
+  user: Pick<User, 'id'>;
 }
 
 @Injectable()
@@ -45,8 +45,6 @@ export class AuthService {
 
     const payload = {
       sub: user.id,
-      username: user.username,
-      email: user.email,
       userId: user.id,
       iss: 'webby-asssesment',
       aud: 'webby-asssesment',
@@ -63,8 +61,6 @@ export class AuthService {
       expiresAt: new Date(expiresAt),
       user: {
         id: user.id,
-        username: user.username,
-        email: user.email,
       },
     };
   }

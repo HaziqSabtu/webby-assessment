@@ -16,6 +16,8 @@ import { RemoveTagInput } from '../dto/remove-tag.input';
 import { User } from '../../user/entities/user.entity';
 import { UserService } from '../../user/services/user.service';
 import { NotFoundException } from '@nestjs/common';
+import { UserCtx } from '../../../common/decorators/user.decorator';
+import { AuthUser } from 'src/common/interfaces/auth.interface';
 
 @Resolver(() => Post)
 export class PostResolver {
@@ -25,8 +27,14 @@ export class PostResolver {
   ) {}
 
   @Mutation(() => Post)
-  createPost(@Args('createPostInput') createPostInput: CreatePostInput) {
-    return this.postService.create(createPostInput);
+  createPost(
+    @Args('createPostInput') createPostInput: CreatePostInput,
+    @UserCtx() user: AuthUser,
+  ) {
+    return this.postService.create({
+      ...createPostInput,
+      userId: user.userId,
+    });
   }
 
   @ResolveField(() => User, { name: 'author' })
