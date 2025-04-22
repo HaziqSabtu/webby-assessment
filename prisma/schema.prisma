@@ -1,0 +1,66 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String       @id @default(uuid())
+  username  String       @unique
+  email     String       @unique
+  password  String
+  profile   UserProfile?
+  posts     Post[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model UserProfile {
+  userId String  @id
+  bio    String
+  avatar String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  user   User    @relation(fields: [userId], references: [id])
+
+}
+
+model Post {
+  id        String     @id @default(uuid())
+  // title     String     @db.VarChar(100) // cannot use with SQLite
+  title     String
+  content   String
+  authorId  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  author    User       @relation(fields: [authorId], references: [id])
+  postTags  PostTag[]
+}
+
+model Tag {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique
+  postTags PostTag[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model PostTag {
+  postId String
+  tagId  Int
+  createdAt DateTime  @default(now())
+
+  post   Post @relation(fields: [postId], references: [id])
+  tag    Tag  @relation(fields: [tagId], references: [id])
+
+  @@id([postId, tagId])
+}
