@@ -13,7 +13,7 @@ export class Post {
   @Field({ nullable: false })
   content: string;
 
-  @Field({ nullable: false })
+  // @Field({ nullable: false })
   authorId: string;
 
   @Field({ nullable: false })
