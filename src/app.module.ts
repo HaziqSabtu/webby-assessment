@@ -6,24 +6,33 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 
 import { ZodValidationPipe } from 'nestjs-zod';
-import { APP_PIPE, APP_GUARD } from '@nestjs/core';
-
-import { AuthGuard } from './common/guards/auth.guard';
+import { APP_PIPE } from '@nestjs/core';
 
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { PostModule } from './modules/post/post.module';
+
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
 
 @Module({
-  imports: [SharedModule, UserModule, AuthModule],
+  imports: [
+    SharedModule,
+    UserModule,
+    AuthModule,
+    PostModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      graphiql: true,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+    }),
+  ],
   controllers: [AppController],
   providers: [
     AppService,
     {
       provide: APP_PIPE,
       useClass: ZodValidationPipe,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
     },
   ],
 })
