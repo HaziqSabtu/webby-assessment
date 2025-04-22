@@ -27,4 +27,27 @@ export class PostPrismaRepository implements PostRepository {
       });
     });
   }
+
+  async findOne(id: string): Promise<Post | null> {
+    const data = await this.prisma.post.findUnique({
+      where: { id },
+      include: {
+        postTags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
+    });
+
+    if (!data) {
+      return null;
+    }
+
+    const tags = data.postTags.map((postTag) => postTag.tag);
+    return new Post({
+      ...data,
+      tags,
+    });
+  }
 }

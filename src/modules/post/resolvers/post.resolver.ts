@@ -18,10 +18,10 @@ export class PostResolver {
     return this.postService.findAll();
   }
 
-  // @Query(() => Post, { name: 'post' })
-  // findOne(@Args('id', { type: () => Int }) id: number) {
-  //   return this.postService.findOne(id);
-  // }
+  @Query(() => Post, { name: 'post' })
+  findOne(@Args('id') id: string) {
+    return this.postService.findOneOrFail(id);
+  }
 
   // @Mutation(() => Post)
   // updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput) {

@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostInput } from '../dto/create-post.input';
 import { UpdatePostInput } from '../dto/update-post.input';
 import { PostRepository } from '../repositories/post.repository';
+import { Post } from '../entities/post.entity';
 
 @Injectable()
 export class PostService {
@@ -14,9 +15,15 @@ export class PostService {
     return await this.postRepository.findAll();
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} post`;
-  // }
+  async findOneOrFail(id: string): Promise<Post> {
+    const post = await this.postRepository.findOne(id);
+
+    if (!post) {
+      throw new NotFoundException(`Post with id ${id} not found`);
+    }
+
+    return post;
+  }
 
   // update(id: number, updatePostInput: UpdatePostInput) {
   //   return `This action updates a #${id} post`;
