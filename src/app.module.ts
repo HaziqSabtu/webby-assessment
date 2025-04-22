@@ -6,9 +6,11 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 
 import { ZodValidationPipe } from 'nestjs-zod';
-import { APP_PIPE } from '@nestjs/core';
+import { APP_GUARD, APP_PIPE } from '@nestjs/core';
 
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { AuthGuard } from './common/guards/auth.guard';
+
 import { PostModule } from './modules/post/post.module';
 
 import { GraphQLModule } from '@nestjs/graphql';
@@ -33,6 +35,10 @@ import { join } from 'path';
     {
       provide: APP_PIPE,
       useClass: ZodValidationPipe,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
     },
   ],
 })
