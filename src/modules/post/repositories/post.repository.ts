@@ -17,4 +17,7 @@ export abstract class PostRepository {
   abstract findOne(id: string): Promise<Post | null>;
   abstract update(id: string, data: updateInput): Promise<Post>;
   abstract delete(id: string): Promise<Post>;
+
+  abstract assignTag(id: string, tagId: number): Promise<Post>;
+  abstract removeTag(id: string, tagId: number): Promise<Post>;
 }

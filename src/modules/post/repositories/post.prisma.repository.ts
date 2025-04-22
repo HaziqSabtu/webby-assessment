@@ -83,4 +83,36 @@ export class PostPrismaRepository implements PostRepository {
 
     return new Post(post);
   }
+
+  async assignTag(id: string, tagId: number): Promise<Post> {
+    const post = await this.prisma.post.update({
+      where: { id: id },
+      data: {
+        tags: {
+          connect: { id: tagId },
+        },
+      },
+      include: {
+        tags: true,
+      },
+    });
+
+    return new Post(post);
+  }
+
+  async removeTag(id: string, tagId: number): Promise<Post> {
+    const post = await this.prisma.post.update({
+      where: { id: id },
+      data: {
+        tags: {
+          disconnect: { id: tagId },
+        },
+      },
+      include: {
+        tags: true,
+      },
+    });
+
+    return new Post(post);
+  }
 }

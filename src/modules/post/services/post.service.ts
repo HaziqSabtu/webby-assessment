@@ -35,4 +35,12 @@ export class PostService {
   async remove(id: string) {
     return await this.postRepository.delete(id);
   }
+
+  async assignTag(id: string, tagId: number) {
+    return await this.postRepository.assignTag(id, tagId);
+  }
+
+  async removeTag(id: string, tagId: number) {
+    return await this.postRepository.removeTag(id, tagId);
+  }
 }

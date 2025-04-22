@@ -10,6 +10,8 @@ import { PostService } from '../services/post.service';
 import { Post } from '../entities/post.entity';
 import { CreatePostInput } from '../dto/create-post.input';
 import { UpdatePostInput } from '../dto/update-post.input';
+import { AssignTagInput } from '../dto/assign-tag.input';
+import { RemoveTagInput } from '../dto/remove-tag.input';
 
 import { User } from '../../user/entities/user.entity';
 import { UserService } from '../../user/services/user.service';
@@ -56,5 +58,17 @@ export class PostResolver {
   @Mutation(() => Post)
   removePost(@Args('id') id: string) {
     return this.postService.remove(id);
+  }
+
+  @Mutation(() => Post)
+  assignTag(@Args('assignTagInput') assignTagInput: AssignTagInput) {
+    const { id, tagId } = assignTagInput;
+    return this.postService.assignTag(id, tagId);
+  }
+
+  @Mutation(() => Post)
+  removeTag(@Args('removeTagInput') removeTagInput: RemoveTagInput) {
+    const { id, tagId } = removeTagInput;
+    return this.postService.removeTag(id, tagId);
   }
 }
