@@ -7,9 +7,12 @@ import { Post } from '../entities/post.entity';
 @Injectable()
 export class PostService {
   constructor(private readonly postRepository: PostRepository) {}
-  // create(createPostInput: CreatePostInput) {
-  //   return 'This action adds a new post';
-  // }
+  async create(createPostInput: CreatePostInput): Promise<Post> {
+    return await this.postRepository.create({
+      ...createPostInput,
+      authorId: '7878c990-83c7-437e-a5db-2c133c6703d3',
+    });
+  }
 
   async findAll() {
     return await this.postRepository.findAll();
@@ -25,11 +28,11 @@ export class PostService {
     return post;
   }
 
-  // update(id: number, updatePostInput: UpdatePostInput) {
-  //   return `This action updates a #${id} post`;
-  // }
+  async update(id: string, updatePostInput: UpdatePostInput): Promise<Post> {
+    return await this.postRepository.update(id, updatePostInput);
+  }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} post`;
-  // }
+  async remove(id: string) {
+    return await this.postRepository.delete(id);
+  }
 }

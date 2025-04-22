@@ -23,7 +23,7 @@ export class Post {
   updatedAt: Date;
 
   @Field(() => [Tag])
-  tags?: Tag[];
+  tags: Tag[];
 
   @Field(() => User)
   author: User;
@@ -43,14 +43,14 @@ export class Post {
     authorId: string;
     createdAt: Date;
     updatedAt: Date;
-    tags: Tag[];
+    tags?: Tag[];
   }) {
     this.id = id;
     this.title = title;
     this.content = content;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
-    this.tags = tags;
+    this.tags = tags || [];
     this.authorId = authorId;
   }
 }

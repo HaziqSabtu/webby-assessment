@@ -3,7 +3,6 @@ import {
   Query,
   Mutation,
   Args,
-  Int,
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
@@ -23,10 +22,10 @@ export class PostResolver {
     private readonly userService: UserService,
   ) {}
 
-  // @Mutation(() => Post)
-  // createPost(@Args('createPostInput') createPostInput: CreatePostInput) {
-  //   return this.postService.create(createPostInput);
-  // }
+  @Mutation(() => Post)
+  createPost(@Args('createPostInput') createPostInput: CreatePostInput) {
+    return this.postService.create(createPostInput);
+  }
 
   @ResolveField(() => User, { name: 'author' })
   async resolveAuthor(@Parent() post: Post): Promise<User> {
@@ -49,13 +48,13 @@ export class PostResolver {
     return this.postService.findOneOrFail(id);
   }
 
-  // @Mutation(() => Post)
-  // updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput) {
-  //   return this.postService.update(updatePostInput.id, updatePostInput);
-  // }
+  @Mutation(() => Post)
+  updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput) {
+    return this.postService.update(updatePostInput.id, updatePostInput);
+  }
 
-  // @Mutation(() => Post)
-  // removePost(@Args('id', { type: () => Int }) id: number) {
-  //   return this.postService.remove(id);
-  // }
+  @Mutation(() => Post)
+  removePost(@Args('id') id: string) {
+    return this.postService.remove(id);
+  }
 }
