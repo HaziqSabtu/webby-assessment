@@ -6,7 +6,7 @@ import { TagService } from '../services/tag.service';
 export class TagResolver {
   constructor(private readonly tarService: TagService) {}
 
-  @Query(() => [Tag], { name: 'tag' })
+  @Query(() => [Tag], { name: 'tags' })
   findAll() {
     return this.tarService.findAll();
   }
