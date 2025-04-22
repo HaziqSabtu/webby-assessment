@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { User } from '../../user/entities/user.entity';
 import { UserService } from '../../user/services/user.service';
-import { SignInDto } from '../dtos/signin.dto';
+import { SignInInput } from '../dto/signin.input';
 import { JwtService } from '@nestjs/jwt';
 
 export interface SignInResponse {
@@ -21,10 +21,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(signInDto: SignInDto): Promise<SignInResponse> {
+  async signIn(signInInput: SignInInput): Promise<SignInResponse> {
     let user: User;
     try {
-      user = await this.userService.findByUsername(signInDto.username);
+      user = await this.userService.findByUsername(signInInput.username);
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw new UnauthorizedException('Wrong username or password');
@@ -36,7 +36,7 @@ export class AuthService {
       throw new UnauthorizedException('Wrong username or password');
     }
 
-    if (user.password !== signInDto.password) {
+    if (user.password !== signInInput.password) {
       throw new UnauthorizedException('Wrong username or password');
     }
 
