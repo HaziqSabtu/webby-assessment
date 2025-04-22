@@ -8,7 +8,9 @@ import {
 } from '@nestjs/graphql';
 import { PostService } from '../services/post.service';
 import { Post } from '../entities/post.entity';
+import { PostPagination } from '../entities/post-pagination.entity';
 import { CreatePostInput } from '../dto/create-post.input';
+import { FindAllPostInput } from '../dto/findAll-post.input';
 import { UpdatePostInput } from '../dto/update-post.input';
 import { RemovePostInput } from '../dto/remove-post.input';
 import { AssignTagInput } from '../dto/assign-tag.input';
@@ -50,9 +52,12 @@ export class PostResolver {
     return user;
   }
 
-  @Query(() => [Post], { name: 'posts' })
-  findAll() {
-    return this.postService.findAll();
+  @Query(() => PostPagination, { name: 'posts' })
+  async findAll(
+    @Args('findAllPostInput', { nullable: true, defaultValue: {} })
+    findAllPostInput: FindAllPostInput,
+  ): Promise<PostPagination> {
+    return this.postService.findAll(findAllPostInput);
   }
 
   @Query(() => Post, { name: 'post' })

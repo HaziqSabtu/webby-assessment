@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { PostRepository, createInput, updateInput } from './post.repository';
+import {
+  PostRepository,
+  createInput,
+  updateInput,
+  findAllInput,
+} from './post.repository';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { Post } from '../entities/post.entity';
 
@@ -19,21 +24,39 @@ export class PostPrismaRepository implements PostRepository {
     return new Post(post);
   }
 
-  async findAll(): Promise<Post[]> {
+  async findAll(
+    params: findAllInput,
+  ): Promise<{ posts: Post[]; nextCursor: string | null }> {
+    const { searchText, tagId, cursor, take = 10 } = params;
+
     const data = await this.prisma.post.findMany({
-      where: { deletedAt: null },
+      where: {
+        deletedAt: null,
+        OR: searchText
+          ? [
+              { title: { contains: searchText } },
+              { content: { contains: searchText } },
+            ]
+          : undefined,
+        tags: tagId ? { some: { id: tagId } } : undefined,
+      },
       include: {
         tags: true,
       },
+      orderBy: { createdAt: 'desc' },
+      take,
+      cursor: cursor ? { id: cursor } : undefined,
+      skip: cursor ? 1 : 0,
     });
 
-    return data.map((post) => {
-      const tags = post.tags;
-      return new Post({
-        ...post,
-        tags,
-      });
-    });
+    const nextCursor = data.length > 0 ? data[data.length - 1].id : null;
+
+    return {
+      posts: data.map((post) => {
+        return new Post(post);
+      }),
+      nextCursor,
+    };
   }
 
   async findOne(id: string): Promise<Post | null> {

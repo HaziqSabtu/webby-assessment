@@ -4,12 +4,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { CreatePostInput } from '../dto/create-post.input';
+import { FindAllPostInput } from '../dto/findAll-post.input';
 import { UpdatePostInput } from '../dto/update-post.input';
 import { RemovePostInput } from '../dto/remove-post.input';
 import { AssignTagInput } from '../dto/assign-tag.input';
 import { RemoveTagInput } from '../dto/remove-tag.input';
 import { PostRepository } from '../repositories/post.repository';
 import { Post } from '../entities/post.entity';
+import { PostPagination } from '../entities/post-pagination.entity';
 
 @Injectable()
 export class PostService {
@@ -23,8 +25,11 @@ export class PostService {
     });
   }
 
-  async findAll() {
-    return await this.postRepository.findAll();
+  async findAll(
+    findAllPostInput: FindAllPostInput | undefined,
+  ): Promise<PostPagination> {
+    const result = await this.postRepository.findAll(findAllPostInput || {});
+    return result;
   }
 
   async findOneOrFail(id: string): Promise<Post> {

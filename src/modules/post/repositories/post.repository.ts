@@ -11,9 +11,18 @@ export type updateInput = {
   content?: Post['content'];
 };
 
+export type findAllInput = {
+  searchText?: string;
+  tagId?: number;
+  cursor?: string;
+  take?: number;
+};
+
 export abstract class PostRepository {
   abstract create(data: createInput): Promise<Post>;
-  abstract findAll(): Promise<Post[]>;
+  abstract findAll(
+    params: findAllInput,
+  ): Promise<{ posts: Post[]; nextCursor: string | null }>;
   abstract findOne(id: string): Promise<Post | null>;
   abstract update(id: string, data: updateInput): Promise<Post>;
   abstract delete(id: string): Promise<Post>;
