@@ -7,14 +7,15 @@ import { UserService } from '../../user/services/user.service';
 
 import { UserCtx } from '../../../common/decorators/user.decorator';
 import { AuthUser } from '../../../common/interfaces/auth.interface';
-import { Public } from '../../../common/decorators/public.decorator';
+
+import { UnauthenticatedOnly } from 'src/common/decorators/unauthenticated-only.decorators';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Public()
   @Mutation(() => User)
+  @UnauthenticatedOnly()
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.userService.create(createUserInput);
   }

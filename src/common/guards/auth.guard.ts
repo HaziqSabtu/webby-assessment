@@ -25,12 +25,21 @@ export class AuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
-    if (isPublic) return true;
+
+    const isUnauthOnly = this.reflector.getAllAndOverride<boolean>(
+      'isUnauthOnly',
+      [context.getHandler(), context.getClass()],
+    );
 
     const gqlContext = GqlExecutionContext.create(context);
     const request = gqlContext.getContext().req;
     const token = this.extractTokenFromHeader(request.headers.authorization);
+
     if (!token) {
+      if (isPublic || isUnauthOnly) {
+        return true;
+      }
+
       throw new UnauthorizedException();
     }
 
@@ -39,11 +48,16 @@ export class AuthGuard implements CanActivate {
         secret: jwtConstants.secret,
       });
       request['user'] = payload;
-    } catch {
+
+      if (isUnauthOnly) {
+        throw new UnauthorizedException('Already authenticated.');
+      }
+
+      return true;
+    } catch (err) {
+      if (err instanceof UnauthorizedException) throw err;
       throw new UnauthorizedException();
     }
-
-    return true;
   }
 
   private extractTokenFromHeader(authHeader?: string): string | undefined {
