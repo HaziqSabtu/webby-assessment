@@ -1,99 +1,275 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Webby - Assessment
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A GraphQL API built with NestJS, Prisma, and TypeScript.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📌 Features
 
-## Description
+### 👤 Account Management
+- Register with email, username, and password
+- Login with token-based authentication (JWT)
+- View and update profile
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### 📝 Post Management (requires authentication)
+- Create posts with one or more tags
+- View own posts
+- Update/delete own posts
 
-## Project setup
+### 🏷️ Tag Management
+- Public access to create and list tags
+- Tags can be reused across multiple posts
 
-```bash
-$ npm install
-```
+## 🔧 Tech Stack
 
-## Compile and run the project
+- **Framework:** [NestJS](https://nestjs.com/)
+- **Language:** TypeScript
+- **API:** GraphQL (Code-First)
+- **ORM:** Prisma
+- **DB:** SQLite
+- **Validation:** class-validator
+- **Architecture:** CQRS (Command Query Responsibility Segregation)
+
+## 🛠️ Setup Instructions
 
 ```bash
-# development
-$ npm run start
+# 1. Install dependencies
+npm install
 
-# watch mode
-$ npm run start:dev
+# 2. Run setup script
+# This will generate local environment variables, do prisma migrations and seed the database
+npm run setup
 
-# production mode
-$ npm run start:prod
+# 3. Start the development server
+npm run start:dev
+```
+## 🚀 Running the API
+
+- Local server will be available at http://localhost:3000/graphql
+
+- Use the GraphQL Playground to test queries and mutations
+
+## 🎯 GraphQL Queries & Mutations
+
+### 👤 Authentication & User
+
+#### 📝 Register a new user (Only unauthenticated)
+
+```graphql
+mutation {
+  createUser(createUserInput: {
+    username: "johndoe123"
+    email: "john@example.com"
+    password: "StrongPass123!"
+    bio: "I'm a developer."
+    avatar: "https://example.com/avatar.png"
+  }) {
+    id
+    username
+    email
+  }
+}
+```
+#### 🔑 Sign in
+
+```graphql
+mutation {
+  signInUser(signInInput: {
+    username: "johndoe123"
+    password: "StrongPass123!"
+  }) {
+    token
+    expiresAt
+  }
+}
+```
+#### 👤 Get current user
+```graphql
+query {
+  me {
+    id
+    username
+    email
+    profile {
+      bio
+      avatar
+    }
+  }
+}
 ```
 
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+#### ✏️ Update profile
+```graphql
+mutation {
+  updateUser(updateUserInput: {
+    bio: "Updated bio"
+    avatar: "https://example.com/new-avatar.png"
+  }) {
+    id
+    profile {
+      bio
+      avatar
+    }
+  }
+}
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g mau
-$ mau deploy
+### 📝 Posts
+#### ➕ Create a post
+```graphql
+mutation {
+  createPost(createPostInput: {
+    title: "GraphQL with NestJS"
+    content: "This is a great post about GraphQL and NestJS!"
+  }) {
+    id
+    title
+    content
+    createdAt
+  }
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+#### 🔄 Update a post
+```graphql
+mutation {
+  updatePost(updatePostInput: {
+    id: "postId123"
+    title: "Updated Title"
+    content: "Updated Content"
+  }) {
+    id
+    title
+    content
+  }
+}
+```
 
-## Resources
+#### ❌ Delete a post
+```graphql
+mutation {
+  removePost(removePostInput: {
+    id: "postId123"
+  }) {
+    id
+    title
+  }
+}
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+#### 📋 Get all posts (with optional filters)
+```graphql
+query {
+  posts(findAllPostInput: {
+    searchText: "GraphQL"
+    tagId: 1
+    authorId: "userId123"
+  }) {
+    posts {
+      id
+      title
+      tags {
+        name
+      }
+      author {
+        username
+      }
+    }
+    nextCursor
+  }
+}
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+#### 🔍 Get post by ID
+```graphql
+query {
+  post(id: "postId123") {
+    title
+    content
+    author {
+      username
+    }
+  }
+}
+```
 
-## Support
+### 🏷️ Tags
+#### ➕ Create tag
+```graphql
+mutation {
+  createTag(createTagInput: {
+    name: "nestjs"
+  }) {
+    id
+    name
+  }
+}
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### 📋 Get all tags (Unauthenticated)
+```graphql
+query {
+  tags {
+    id
+    name
+  }
+}
+``` 
 
-## Stay in touch
+#### 🔗 Assign tag to post
+```graphql
+mutation {
+  assignTag(assignTagInput: {
+    id: "postId123"
+    tagId: 1
+  }) {
+    id
+    tags {
+      name
+    }
+  }
+}
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+#### ❌ Remove tag from post
+```graphql
+mutation {
+  removeTag(removeTagInput: {
+    id: "postId123"
+    tagId: 1
+  }) {
+    id
+    tags {
+      name
+    }
+  }
+}
+```
 
-## License
+## Known Issues
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### 🧠 Learning and Applying CQRS
+
+- **Challenge**: I had no prior experience with CQRS, and applying it in a NestJS GraphQL project was initially unfamiliar.
+
+- **What I Did**:
+
+  - Watched videos and read articles to understand CQRS concepts.
+
+  - Studied real-world GitHub repos to see how CQRS is structured in NestJS apps.
+
+- **Solution**:
+
+  - Separated commands (writes) and queries (reads) using the @nestjs/cqrs module.
+
+  - Kept resolvers lean by delegating logic to command/query handlers.
+
+  - This improved modularity and made the code easier to test and maintain.
+
+### 🛠️ Database Setup Simplification
+
+- **Challenge**: I initially used MySQL and PostgreSQL for the database, but found it difficult to set up and manage.
+
+- **What I Did**:
+
+  - I switched to SQLite, a serverless, file-based database that integrates smoothly with Prisma.
+
+  - The Prisma schema can be easily switched to MySQL or PostgreSQL later with minimal changes if needed.
