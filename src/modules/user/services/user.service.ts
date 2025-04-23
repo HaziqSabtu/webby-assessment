@@ -1,67 +1,50 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { UserRepository } from '../repositories/user.repository';
+import { Injectable } from '@nestjs/common';
 import { User } from '../entities/user.entity';
 import { CreateUserInput } from '../dto/create-user.input';
 import { UpdateUserInput } from '../dto/update-user.input';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { GetUserByEmailQuery } from '../queries/get-user-by-email/get-user-by-email.query';
+import { GetUserByUsernameQuery } from '../queries/get-user-by-username/get-user-by-username.query';
+import { GetUserByUserIdQuery } from '../queries/get-user-by-userId/get-user-by-userId.query';
+import { CreateUserCommand } from '../commands/create-user/create-user.command';
+import { UpdateUserCommand } from '../commands/update-user/update-user.command';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
 
   async create(createUserInput: CreateUserInput): Promise<User> {
-    const { username, email } = createUserInput;
-    const isUserNameExist = await this.userRepository.findByUsername(username);
-
-    if (isUserNameExist) {
-      throw new ConflictException();
-    }
-
-    const isEmailExist = await this.userRepository.findByEmail(email);
-
-    if (isEmailExist) {
-      throw new ConflictException();
-    }
-
-    return await this.userRepository.create(createUserInput);
+    return await this.commandBus.execute<CreateUserCommand, User>(
+      new CreateUserCommand(createUserInput),
+    );
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await this.userRepository.findByEmail(email);
-
-    if (!user) {
-      throw new NotFoundException(`User with email ${email} not found`);
-    }
-
-    return user;
+    return await this.queryBus.execute<GetUserByEmailQuery, User>(
+      new GetUserByEmailQuery(email),
+    );
   }
 
   async findByUsername(username: string): Promise<User> {
-    const user = await this.userRepository.findByUsername(username);
-
-    if (!user) {
-      throw new NotFoundException(`User with username ${username} not found`);
-    }
-
-    return user;
+    return await this.queryBus.execute<GetUserByUsernameQuery, User>(
+      new GetUserByUsernameQuery(username),
+    );
   }
 
   async findOneOrFailById(id: string): Promise<User> {
-    const user = await this.userRepository.findOneById(id);
-
-    if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
-
-    return user;
+    return await this.queryBus.execute<GetUserByUserIdQuery, User>(
+      new GetUserByUserIdQuery(id),
+    );
   }
 
   async update(
     updateUserInput: UpdateUserInput & { userId: string },
   ): Promise<User> {
-    return await this.userRepository.update(updateUserInput);
+    return await this.commandBus.execute<UpdateUserCommand, User>(
+      new UpdateUserCommand(updateUserInput),
+    );
   }
 }
