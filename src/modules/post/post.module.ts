@@ -18,6 +18,8 @@ import { UpdatePostHandler } from './commands/update-post/update-post.handler';
 import { RemovePostHandler } from './commands/remove-post/remove-post.handler';
 import { AssignTagToPostHandler } from './commands/assign-tag-to-post/assign-tag-to-post.handler';
 import { RemoveTagFromPostHandler } from './commands/remove-tag-from-post/remove-tag-from-post.handler';
+import { GetAllTagsHandler } from './queries/get-all-tags/get-all-tags.handler';
+import { CreateTagHandler } from './commands/create-tag/create-post.handler';
 
 @Module({
   imports: [UserModule],
@@ -34,13 +36,23 @@ import { RemoveTagFromPostHandler } from './commands/remove-tag-from-post/remove
       provide: TagRepository,
       useClass: TagPrismaRepository,
     },
+
+    // Post - Query
     GetPostByIdHandler,
     GetAllPostsHandler,
+
+    // Post - Command
     CreatePostHandler,
     UpdatePostHandler,
     RemovePostHandler,
     AssignTagToPostHandler,
     RemoveTagFromPostHandler,
+
+    // Tag - Query
+    GetAllTagsHandler,
+
+    // Tag - Command
+    CreateTagHandler,
   ],
 })
 export class PostModule {}
