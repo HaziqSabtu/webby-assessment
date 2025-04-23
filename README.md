@@ -273,3 +273,9 @@ mutation {
   - I switched to SQLite, a serverless, file-based database that integrates smoothly with Prisma.
 
   - The Prisma schema can be easily switched to MySQL or PostgreSQL later with minimal changes if needed.
+
+## 📂 Postman Collection
+
+The Postman collection for testing the GraphQL API is made available in the `postman/` folder. 
+
+You can import the collection into your Postman environment to interact with the API directly.

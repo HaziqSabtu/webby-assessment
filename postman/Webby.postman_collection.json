@@ -1,0 +1,1834 @@
+{
+	"info": {
+		"_postman_id": "3bb8f7a2-b345-40dd-b703-a0746fd75ac4",
+		"name": "Webby",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32098672"
+	},
+	"item": [
+		{
+			"name": "assesment",
+			"item": [
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "Sign In User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Parse the response body\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"const token = response.data?.signInUser?.token\r",
+											"\r",
+											"if (token) {\r",
+											"    pm.collectionVariables.set(\"accessToken\", token);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"mutation SignInUser {\\n  signInUser(signInInput: { username: \\\"meowmeow123123\\\", password: \\\"superCat123!\\\" }) {\\n    token\\n    expiresAt\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Successful",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"mutation SignInUser {\\n  signInUser(signInInput: { username: \\\"meowmeow123\\\", password: \\\"meowmeow123\\\" }) {\\n    token\\n    expiresAt\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "395"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"18b-tDS4rzjtqzYobtegUbaYQt8UFkg\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 06:56:00 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"signInUser\": {\n            \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhNTU4ZmM0OC0yZGM5LTRjODktOGY2MC04OWE5Y2ZiZjAxMzMiLCJ1c2VySWQiOiJhNTU4ZmM0OC0yZGM5LTRjODktOGY2MC04OWE5Y2ZiZjAxMzMiLCJpc3MiOiJ3ZWJieS1hc3NzZXNtZW50IiwiYXVkIjoid2ViYnktYXNzc2VzbWVudCIsImlhdCI6MTc0NTM5MTM2MCwiZXhwIjoxNzQ1Mzk0OTYwfQ.E0-J6zPPPFKxNnXHFKooVzLV953xLVXf9XasX2pBKpc\",\n            \"expiresAt\": \"2025-04-23T07:56:00.343Z\"\n        }\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "Create user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"mutation CreateUser {\\n  createUser(createUserInput: {\\n    username: \\\"meowmeow123123\\\",\\n    email: \\\"meow@meow.com\\\",\\n    password: \\\"superCat123!\\\",\\n    bio: \\\"I love cats and code.\\\",\\n    avatar: \\\"https://example.com/avatar.jpg\\\"\\n  }) {\\n    id\\n    username\\n    email\\n    profile {\\n      bio\\n      avatar\\n    }\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"mutation CreateUser {\\n  createUser(createUserInput: {\\n    username: \\\"meowmeow123123\\\",\\n    email: \\\"meow@meow.com\\\",\\n    password: \\\"superCat123!\\\",\\n    bio: \\\"I love cats and code.\\\",\\n    avatar: \\\"https://example.com/avatar.jpg\\\"\\n  }) {\\n    id\\n    username\\n    email\\n    profile {\\n      bio\\n      avatar\\n    }\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "206"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"ce-Te7jS/JATDJdpy8ZVDW567kwa0E\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 06:55:38 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"createUser\": {\n            \"id\": \"f9187596-bd01-452d-901f-c5076d525f24\",\n            \"username\": \"meowmeow123123\",\n            \"email\": \"meow@meow.com\",\n            \"profile\": {\n                \"bio\": \"I love cats and code.\",\n                \"avatar\": \"https://example.com/avatar.jpg\"\n            }\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"mutation UpdateUser {\\n  updateUser(updateUserInput: {\\n    bio: \\\"Updated bio here.\\\",\\n    avatar: \\\"https://example.com/new-avatar.jpg\\\"\\n  }) {\\n    id\\n    username\\n    email\\n    profile {\\n      bio\\n      avatar\\n    }\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Updated",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"mutation UpdateUser {\\n  updateUser(updateUserInput: {\\n    bio: \\\"Updated bio here.\\\",\\n    avatar: \\\"https://example.com/new-avatar.jpg\\\"\\n  }) {\\n    id\\n    username\\n    email\\n    profile {\\n      bio\\n      avatar\\n    }\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "204"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"cc-T31ssbC+FCgh+PkixsZcbxrNK9w\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 06:56:22 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"updateUser\": {\n            \"id\": \"a558fc48-2dc9-4c89-8f60-89a9cfbf0133\",\n            \"username\": \"meowmeow123\",\n            \"email\": \"meow@gmail.com\",\n            \"profile\": {\n                \"bio\": \"Updated bio here.\",\n                \"avatar\": \"https://example.com/new-avatar.jpg\"\n            }\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get current user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Parse the response body\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"const userId = response?.data?.me?.id\r",
+											"\r",
+											"if (userId) {\r",
+											"    pm.collectionVariables.set(\"userId\", userId);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"query Me {\\n  me {\\n    id\\n    username\\n    email\\n    createdAt\\n    profile {\\n      bio\\n      avatar\\n    }\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get current user",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"query Me {\\n  me {\\n    id\\n    username\\n    email\\n    createdAt\\n    profile {\\n      bio\\n      avatar\\n    }\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "235"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"eb-pJoJR2f+WjJn+9rjWnWCzKgKpS0\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 06:57:53 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"me\": {\n            \"id\": \"a558fc48-2dc9-4c89-8f60-89a9cfbf0133\",\n            \"username\": \"meowmeow123\",\n            \"email\": \"meow@gmail.com\",\n            \"createdAt\": \"2025-04-22T14:37:30.070Z\",\n            \"profile\": {\n                \"bio\": \"Updated bio here.\",\n                \"avatar\": \"https://example.com/new-avatar.jpg\"\n            }\n        }\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "post",
+					"item": [
+						{
+							"name": "Create a post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Parse the response body\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"const postId = response?.data?.createPost?.id\r",
+											"\r",
+											"if (postId) {\r",
+											"    pm.collectionVariables.set(\"postId\", postId);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"mutation CreatePost {\\n  createPost(createPostInput: {\\n    title: \\\"My New Post\\\",\\n    content: \\\"This is my awesome new post!\\\",\\n    tagIds: [{{tagId}}]\\n  }) {\\n    id\\n    title\\n    content\\n    createdAt\\n    updatedAt\\n    tags {\\n      id\\n      name\\n    }\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"mutation CreatePost {\\n  createPost(createPostInput: {\\n    title: \\\"My First Post\\\",\\n    content: \\\"This is the content of my first post.\\\"\\n  }) {\\n    id\\n    title\\n    content\\n    createdAt\\n    updatedAt\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "222"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"de-fLiPezxaXOh4+8QR3Z8jQOcEzEc\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 06:59:19 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"createPost\": {\n            \"id\": \"fb4dafd6-5bc6-4df3-8a44-7675724c6965\",\n            \"title\": \"My First Post\",\n            \"content\": \"This is the content of my first post.\",\n            \"createdAt\": \"2025-04-23T06:59:19.285Z\",\n            \"updatedAt\": \"2025-04-23T06:59:19.285Z\"\n        }\n    }\n}"
+								},
+								{
+									"name": "Create with tag",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"mutation CreatePost {\\n  createPost(createPostInput: {\\n    title: \\\"My New Post\\\",\\n    content: \\\"This is my awesome new post!\\\",\\n    tagIds: [{{tagId}}]\\n  }) {\\n    id\\n    title\\n    content\\n    createdAt\\n    updatedAt\\n    tags {\\n      id\\n      name\\n    }\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "912"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"390-DKMwVt9jmQxIDPZnJd3ATrmBb68\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 07:30:09 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": [\n        {\n            \"message\": \"Tag with id 23, 24 does not exist\",\n            \"locations\": [\n                {\n                    \"line\": 2,\n                    \"column\": 3\n                }\n            ],\n            \"path\": [\n                \"createPost\"\n            ],\n            \"extensions\": {\n                \"code\": \"BAD_REQUEST\",\n                \"stacktrace\": [\n                    \"BadRequestException: Tag with id 23, 24 does not exist\",\n                    \"    at CreatePostHandler.execute (/home/haziqsabtu/dev/work2025/webby-assessment/dist/src/modules/post/commands/create-post/create-post.handler.js:28:23)\",\n                    \"    at async PostService.create (/home/haziqsabtu/dev/work2025/webby-assessment/dist/src/modules/post/services/post.service.js:28:16)\",\n                    \"    at async target (/home/haziqsabtu/dev/work2025/webby-assessment/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)\",\n                    \"    at async Object.createPost (/home/haziqsabtu/dev/work2025/webby-assessment/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)\"\n                ],\n                \"originalError\": {\n                    \"message\": \"Tag with id 23, 24 does not exist\",\n                    \"error\": \"Bad Request\",\n                    \"statusCode\": 400\n                }\n            }\n        }\n    ],\n    \"data\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "Get post by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"query GetPostById {\\n  post(id: \\\"{{postId}}\\\") {\\n    id\\n    title\\n    content\\n    createdAt\\n    updatedAt\\n    author {\\n      id\\n      username\\n    }\\n    tags {\\n      id\\n      name\\n    }\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Read",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"query GetPostById {\\n  post(id: \\\"{{postId}}\\\") {\\n    id\\n    title\\n    content\\n    createdAt\\n    updatedAt\\n    author {\\n      id\\n      username\\n    }\\n    tags {\\n      id\\n      name\\n    }\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "285"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"11d-SSL/tZrUQ7PrHou/eX81YrliN88\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 07:02:27 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"post\": {\n            \"id\": \"0fa46659-ed7e-444c-9fd9-d3cea508dee1\",\n            \"title\": \"Updated Title\",\n            \"content\": \"Updated content.\",\n            \"createdAt\": \"2025-04-23T07:01:19.615Z\",\n            \"updatedAt\": \"2025-04-23T07:01:37.259Z\",\n            \"author\": {\n                \"id\": \"a558fc48-2dc9-4c89-8f60-89a9cfbf0133\",\n                \"username\": \"meowmeow123\"\n            },\n            \"tags\": []\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Query post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Parse the response body\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"const nextCursor = response?.data?.posts?.nextCursor\r",
+											"\r",
+											"if (nextCursor) {\r",
+											"    pm.collectionVariables.set(\"nextCursor\", nextCursor);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"query GetAllPosts {\\n  posts {\\n    posts {\\n      id\\n      title\\n      content\\n      createdAt\\n      updatedAt\\n    }\\n    nextCursor\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "No Params",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"query GetAllPosts {\\n  posts {\\n    posts {\\n      id\\n      title\\n      content\\n      createdAt\\n      updatedAt\\n    }\\n    nextCursor\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "2190"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"88e-Us8Zz0UvPMx68wcPEivTpd5p4PA\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 07:12:46 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"posts\": {\n            \"posts\": [\n                {\n                    \"id\": \"8808e736-0c20-44e1-aacf-f25dc2209bed\",\n                    \"title\": \"My First Post\",\n                    \"content\": \"This is the content of my first post.\",\n                    \"createdAt\": \"2025-04-23T07:09:35.592Z\",\n                    \"updatedAt\": \"2025-04-23T07:09:35.592Z\"\n                },\n                {\n                    \"id\": \"fb4dafd6-5bc6-4df3-8a44-7675724c6965\",\n                    \"title\": \"My First Post\",\n                    \"content\": \"This is the content of my first post.\",\n                    \"createdAt\": \"2025-04-23T06:59:19.285Z\",\n                    \"updatedAt\": \"2025-04-23T06:59:19.285Z\"\n                },\n                {\n                    \"id\": \"38354102-6ca3-48f3-bb44-4e97ed88e8d0\",\n                    \"title\": \"12121\",\n                    \"content\": \"121212\",\n                    \"createdAt\": \"2025-04-23T03:47:16.760Z\",\n                    \"updatedAt\": \"2025-04-23T03:47:16.760Z\"\n                },\n                {\n                    \"id\": \"e1b6675c-a040-48f6-bd7d-88b41034231b\",\n                    \"title\": \"yeet\",\n                    \"content\": \"mama\",\n                    \"createdAt\": \"2025-04-22T13:17:19.674Z\",\n                    \"updatedAt\": \"2025-04-22T13:17:19.674Z\"\n                },\n                {\n                    \"id\": \"944e5b6d-490c-4757-94c8-30412bc02e00\",\n                    \"title\": \"Understanding Providers in NestJS\",\n                    \"content\": \"How dependency injection works under the hood.\",\n                    \"createdAt\": \"2025-04-22T12:22:53.127Z\",\n                    \"updatedAt\": \"2025-04-22T12:22:53.127Z\"\n                },\n                {\n                    \"id\": \"9e88878e-145e-439c-b355-239a11ffd27f\",\n                    \"title\": \"Database Migrations with Prisma\",\n                    \"content\": \"How to manage schema changes cleanly and safely.\",\n                    \"createdAt\": \"2025-04-22T12:22:53.127Z\",\n                    \"updatedAt\": \"2025-04-22T12:22:53.127Z\"\n                },\n                {\n                    \"id\": \"bf5ae641-d9e4-4fb1-8d4b-86abb5f6d078\",\n                    \"title\": \"Exploring NestJS Basics\",\n                    \"content\": \"This post covers the fundamentals of NestJS and its modular architecture.\",\n                    \"createdAt\": \"2025-04-22T12:22:53.127Z\",\n                    \"updatedAt\": \"2025-04-22T12:22:53.127Z\"\n                },\n                {\n                    \"id\": \"6cb276c5-285b-458d-9646-45954c58fdec\",\n                    \"title\": \"REST vs GraphQL\",\n                    \"content\": \"A breakdown of differences, pros, and cons between REST and GraphQL.\",\n                    \"createdAt\": \"2025-04-22T12:22:53.127Z\",\n                    \"updatedAt\": \"2025-04-22T12:22:53.127Z\"\n                },\n                {\n                    \"id\": \"18981691-6522-4797-8e2f-5e06b0c2161e\",\n                    \"title\": \"Optimizing GraphQL Queries\",\n                    \"content\": \"Learn how to avoid N+1 problems and write efficient queries.\",\n                    \"createdAt\": \"2025-04-22T12:22:53.127Z\",\n                    \"updatedAt\": \"2025-04-22T12:22:53.127Z\"\n                },\n                {\n                    \"id\": \"3d983811-4602-4a11-b82b-a5da248595e3\",\n                    \"title\": \"Deploying with Docker\",\n                    \"content\": \"A simple guide to containerizing and deploying your backend app.\",\n                    \"createdAt\": \"2025-04-22T12:22:53.127Z\",\n                    \"updatedAt\": \"2025-04-22T12:22:53.127Z\"\n                }\n            ],\n            \"nextCursor\": \"3d983811-4602-4a11-b82b-a5da248595e3\"\n        }\n    }\n}"
+								},
+								{
+									"name": "Pagination",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"query PostsWithCursor {\\n  posts(findAllPostInput: {\\n    cursor: \\\"{{nextCursor}}\\\"\\n  }) {\\n    posts {\\n      id\\n      title\\n      createdAt\\n    }\\n    nextCursor\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1305"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"519-N0/Z2YdqoTuLjXNpCCIg0hsRVbU\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 07:14:02 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"posts\": {\n            \"posts\": [\n                {\n                    \"id\": \"7a9ac7d8-ba51-4396-9b0e-f5f5daf43bea\",\n                    \"title\": \"Using Interceptors in NestJS\",\n                    \"createdAt\": \"2025-04-22T12:22:53.048Z\"\n                },\n                {\n                    \"id\": \"b66c900c-c4de-4442-afd1-b9518dfd674a\",\n                    \"title\": \"Introduction to CQRS\",\n                    \"createdAt\": \"2025-04-22T12:22:53.040Z\"\n                },\n                {\n                    \"id\": \"2b8adeb8-cbc4-49b0-910a-5c84317f1166\",\n                    \"title\": \"Exploring NestJS Basics\",\n                    \"createdAt\": \"2025-04-22T12:22:52.930Z\"\n                },\n                {\n                    \"id\": \"e486d974-8b1c-48c4-935f-4c76896b4893\",\n                    \"title\": \"Database Migrations with Prisma\",\n                    \"createdAt\": \"2025-04-22T12:22:52.930Z\"\n                },\n                {\n                    \"id\": \"94b81bc0-b89e-409b-99cb-b324364eb7bd\",\n                    \"title\": \"Best Practices with Prisma\",\n                    \"createdAt\": \"2025-04-22T12:22:52.930Z\"\n                },\n                {\n                    \"id\": \"5f220561-61ef-42ed-94e0-ecb72f6fa13d\",\n                    \"title\": \"Getting Started with GraphQL\",\n                    \"createdAt\": \"2025-04-22T12:22:52.930Z\"\n                },\n                {\n                    \"id\": \"4ff42254-ae09-4f13-a05d-a7b5ea75bd2d\",\n                    \"title\": \"Deploying with Docker\",\n                    \"createdAt\": \"2025-04-22T12:22:52.930Z\"\n                },\n                {\n                    \"id\": \"5af7bb08-f6cd-4ce2-b633-7f866117b5ae\",\n                    \"title\": \"Optimizing GraphQL Queries\",\n                    \"createdAt\": \"2025-04-22T12:22:52.930Z\"\n                },\n                {\n                    \"id\": \"7ee0fc1f-277a-4c74-a009-622dfd1b8eac\",\n                    \"title\": \"Logging Best Practices\",\n                    \"createdAt\": \"2025-04-22T12:22:52.930Z\"\n                },\n                {\n                    \"id\": \"387f1731-2064-493d-969c-4aa3452bc475\",\n                    \"title\": \"Working with One-to-One Relationships\",\n                    \"createdAt\": \"2025-04-22T12:22:52.930Z\"\n                }\n            ],\n            \"nextCursor\": \"387f1731-2064-493d-969c-4aa3452bc475\"\n        }\n    }\n}"
+								},
+								{
+									"name": "My posts",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"query PostsByAuthor {\\n  posts(findAllPostInput: {\\n    authorId: \\\"{{userId}}\\\"\\n  }) {\\n    posts {\\n      id\\n      title\\n      author {\\n        id\\n        username\\n      }\\n    }\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "473"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1d9-GQUF8UamsrIvYApO+hdeSKkrHG4\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 07:15:52 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"posts\": {\n            \"posts\": [\n                {\n                    \"id\": \"8808e736-0c20-44e1-aacf-f25dc2209bed\",\n                    \"title\": \"My First Post\",\n                    \"author\": {\n                        \"id\": \"a558fc48-2dc9-4c89-8f60-89a9cfbf0133\",\n                        \"username\": \"meowmeow123\"\n                    }\n                },\n                {\n                    \"id\": \"fb4dafd6-5bc6-4df3-8a44-7675724c6965\",\n                    \"title\": \"My First Post\",\n                    \"author\": {\n                        \"id\": \"a558fc48-2dc9-4c89-8f60-89a9cfbf0133\",\n                        \"username\": \"meowmeow123\"\n                    }\n                },\n                {\n                    \"id\": \"38354102-6ca3-48f3-bb44-4e97ed88e8d0\",\n                    \"title\": \"12121\",\n                    \"author\": {\n                        \"id\": \"a558fc48-2dc9-4c89-8f60-89a9cfbf0133\",\n                        \"username\": \"meowmeow123\"\n                    }\n                }\n            ]\n        }\n    }\n}"
+								},
+								{
+									"name": "Filter by tagId",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"query PostsByTag {\\n  posts(findAllPostInput: {\\n    tagId: {{tagId}}\\n  }) {\\n    posts {\\n      id\\n      title\\n      tags {\\n        id\\n        name\\n      }\\n    }\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "149"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"95-uhgxE651luKKTS+xEvkq+pt5HNg\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 07:16:27 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"posts\": {\n            \"posts\": [\n                {\n                    \"id\": \"8808e736-0c20-44e1-aacf-f25dc2209bed\",\n                    \"title\": \"My First Post\",\n                    \"tags\": [\n                        {\n                            \"id\": 22,\n                            \"name\": \"technology123123123\"\n                        }\n                    ]\n                }\n            ]\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update a post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"mutation UpdatePost {\\n  updatePost(updatePostInput: {\\n    id: \\\"{{postId}}\\\",\\n    title: \\\"Updated Title\\\",\\n    content: \\\"Updated content.\\\"\\n  }) {\\n    id\\n    title\\n    content\\n    updatedAt\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Updated",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"mutation UpdatePost {\\n  updatePost(updatePostInput: {\\n    id: \\\"{{postId}}\\\",\\n    title: \\\"Updated Title\\\",\\n    content: \\\"Updated content.\\\"\\n  }) {\\n    id\\n    title\\n    content\\n    updatedAt\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "162"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"a2-KGA7WosYYajsmP+K0Px7PFxE4+E\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 07:01:37 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"updatePost\": {\n            \"id\": \"0fa46659-ed7e-444c-9fd9-d3cea508dee1\",\n            \"title\": \"Updated Title\",\n            \"content\": \"Updated content.\",\n            \"updatedAt\": \"2025-04-23T07:01:37.259Z\"\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete a post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"mutation DeletePost {\\n  removePost(removePostInput: {\\n    id: \\\"{{postId}}\\\"\\n  }) {\\n    id\\n    title\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Deleted",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"mutation DeletePost {\\n  removePost(removePostInput: {\\n    id: \\\"{{postId}}\\\"\\n  }) {\\n    id\\n    title\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "94"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"5e-mvU//rNtn7qAE48rBxyrH99aZK0\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 07:03:08 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"removePost\": {\n            \"id\": \"0fa46659-ed7e-444c-9fd9-d3cea508dee1\",\n            \"title\": \"Updated Title\"\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Assign tag to a post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"mutation AssignTag {\\n  assignTag(assignTagInput: {\\n    id: \\\"{{postId}}\\\",\\n    tagId: {{tagId}}\\n  }) {\\n    id\\n    title\\n    tags {\\n      id\\n      name\\n    }\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Assigned",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"mutation AssignTag {\\n  assignTag(assignTagInput: {\\n    id: \\\"{{postId}}\\\",\\n    tagId: {{tagId}}\\n  }) {\\n    id\\n    title\\n    tags {\\n      id\\n      name\\n    }\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "141"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"8d-ik5CA0OhdUVYVcJrfKSPGXcuqMA\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 07:09:38 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"assignTag\": {\n            \"id\": \"8808e736-0c20-44e1-aacf-f25dc2209bed\",\n            \"title\": \"My First Post\",\n            \"tags\": [\n                {\n                    \"id\": 22,\n                    \"name\": \"technology123123123\"\n                }\n            ]\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Remove tag from a post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"mutation RemoveTag {\\n  removeTag(removeTagInput: {\\n    id: \\\"{{postId}}\\\",\\n    tagId: {{tagId}}\\n  }) {\\n    id\\n    title\\n    tags {\\n      id\\n      name\\n    }\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Deleted",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"mutation DeletePost {\\n  removePost(removePostInput: {\\n    id: \\\"{{postId}}\\\"\\n  }) {\\n    id\\n    title\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "94"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"5e-mvU//rNtn7qAE48rBxyrH99aZK0\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 07:03:08 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"removePost\": {\n            \"id\": \"0fa46659-ed7e-444c-9fd9-d3cea508dee1\",\n            \"title\": \"Updated Title\"\n        }\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "tag",
+					"item": [
+						{
+							"name": "Create a tag",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"// Parse the response body\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"const tagId = response?.data?.createTag?.id\r",
+											"\r",
+											"if (tagId) {\r",
+											"    pm.collectionVariables.set(\"tagId\", tagId);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"mutation CreateTag {\\n  createTag(createTagInput: {\\n    name: \\\"technology123123123\\\"\\n  }) {\\n    id\\n    name\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"mutation CreateTag {\\n  createTag(createTagInput: {\\n    name: \\\"technology123123123\\\"\\n  }) {\\n    id\\n    name\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "62"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3e-4tuFcFQn+lomaFbKvAPW8yIj+TA\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 07:09:25 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"createTag\": {\n            \"id\": 22,\n            \"name\": \"technology123123123\"\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "List all tags",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"// Parse the response body\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"const tagId = response?.data?.createTag?.id\r",
+											"\r",
+											"if (tagId) {\r",
+											"    pm.collectionVariables.set(\"tagId\", tagId);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"query GetAllTags {\\n  tags {\\n    id\\n    name\\n  }\\n}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "All",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": \"query GetAllTags {\\n  tags {\\n    id\\n    name\\n  }\\n}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/graphql",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"graphql"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "cache-control",
+											"value": "no-store"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "373"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"175-JL8OHxx0tXf5DYkumpoFSbQh1/g\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 07:10:13 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"tags\": [\n            {\n                \"id\": 11,\n                \"name\": \"Tech\"\n            },\n            {\n                \"id\": 12,\n                \"name\": \"GraphQL\"\n            },\n            {\n                \"id\": 13,\n                \"name\": \"NestJS\"\n            },\n            {\n                \"id\": 14,\n                \"name\": \"Backend\"\n            },\n            {\n                \"id\": 15,\n                \"name\": \"Database\"\n            },\n            {\n                \"id\": 16,\n                \"name\": \"newTag\"\n            },\n            {\n                \"id\": 17,\n                \"name\": \"tag123\"\n            },\n            {\n                \"id\": 18,\n                \"name\": \"technology\"\n            },\n            {\n                \"id\": 19,\n                \"name\": \"technology1\"\n            },\n            {\n                \"id\": 20,\n                \"name\": \"technology123\"\n            },\n            {\n                \"id\": 21,\n                \"name\": \"technology123123\"\n            },\n            {\n                \"id\": 22,\n                \"name\": \"technology123123123\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{accessToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "restaurantId",
+			"value": "4ae846c7-6e78-4fee-bcb8-073c7688de5a",
+			"type": "default"
+		},
+		{
+			"key": "reviewId",
+			"value": "330e36b4-1d95-474e-8b07-1d9599c19da3",
+			"type": "default"
+		},
+		{
+			"key": "restaurantCursor",
+			"value": ""
+		},
+		{
+			"key": "uploadedImageId",
+			"value": ""
+		},
+		{
+			"key": "postId",
+			"value": ""
+		},
+		{
+			"key": "tagId",
+			"value": ""
+		},
+		{
+			"key": "nextCursor",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "accessToken",
+			"value": ""
+		}
+	]
+}
