@@ -19,7 +19,7 @@ import { RemovePostHandler } from './commands/remove-post/remove-post.handler';
 import { AssignTagToPostHandler } from './commands/assign-tag-to-post/assign-tag-to-post.handler';
 import { RemoveTagFromPostHandler } from './commands/remove-tag-from-post/remove-tag-from-post.handler';
 import { GetAllTagsHandler } from './queries/get-all-tags/get-all-tags.handler';
-import { CreateTagHandler } from './commands/create-tag/create-post.handler';
+import { CreateTagHandler } from './commands/create-tag/create-tag.handler';
 
 @Module({
   imports: [UserModule],
