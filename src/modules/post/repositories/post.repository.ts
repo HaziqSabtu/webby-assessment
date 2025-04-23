@@ -1,9 +1,11 @@
 import { Post } from '../entities/post.entity';
+import { Tag } from '../entities/tag.entity';
 
 export type createInput = {
   title: Post['title'];
   content: Post['content'];
   authorId: Post['authorId'];
+  tagIds: Tag['id'][];
 };
 
 export type updateInput = {

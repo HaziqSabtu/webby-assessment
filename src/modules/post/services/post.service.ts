@@ -28,6 +28,7 @@ export class PostService {
     return await this.commandBus.execute<CreatePostCommand, Post>(
       new CreatePostCommand({
         ...createPostInput,
+        tagIds: createPostInput.tagIds || [],
         authorId: createPostInput.userId,
       }),
     );

@@ -18,6 +18,12 @@ export class PostPrismaRepository implements PostRepository {
         title: data.title,
         content: data.content,
         authorId: data.authorId,
+        tags: {
+          connect: data.tagIds.map((tagId) => ({ id: tagId })),
+        },
+      },
+      include: {
+        tags: true,
       },
     });
 
