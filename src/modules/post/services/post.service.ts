@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreatePostInput } from '../dto/create-post.input';
 import { FindAllPostInput } from '../dto/findAll-post.input';
@@ -42,15 +42,9 @@ export class PostService {
   }
 
   async findOneOrFail(id: string): Promise<Post> {
-    const post = await this.queryBus.execute<GetPostByIdQuery, Post>(
+    return await this.queryBus.execute<GetPostByIdQuery, Post>(
       new GetPostByIdQuery(id),
     );
-
-    if (!post) {
-      throw new NotFoundException(`Post with id ${id} not found`);
-    }
-
-    return post;
   }
 
   async update(
