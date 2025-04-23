@@ -4,6 +4,7 @@ import { UserModule } from '../user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '../../common/constants/jwt.constant';
 import { AuthResolver } from './resolvers/auth.resolver';
+import { SignInHandler } from './commands/sign-in.handler';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { AuthResolver } from './resolvers/auth.resolver';
       secret: jwtConstants.secret,
     }),
   ],
-  providers: [AuthResolver, AuthService],
+  providers: [AuthResolver, AuthService, SignInHandler],
 })
 export class AuthModule {}
