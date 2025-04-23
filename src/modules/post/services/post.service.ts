@@ -1,39 +1,50 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreatePostInput } from '../dto/create-post.input';
 import { FindAllPostInput } from '../dto/findAll-post.input';
 import { UpdatePostInput } from '../dto/update-post.input';
 import { RemovePostInput } from '../dto/remove-post.input';
 import { AssignTagInput } from '../dto/assign-tag.input';
 import { RemoveTagInput } from '../dto/remove-tag.input';
-import { PostRepository } from '../repositories/post.repository';
 import { Post } from '../entities/post.entity';
 import { PostPagination } from '../entities/post-pagination.entity';
+import { GetPostByIdQuery } from '../queries/get-post-by-id/get-post-by-id.query';
+import { GetAllPostsQuery } from '../queries/get-all-posts/get-all-posts.query';
+import { CreatePostCommand } from '../commands/create-post/create-post.command';
+import { UpdatePostCommand } from '../commands/update-post/update-post.command';
+import { RemovePostCommand } from '../commands/remove-post/remove-post.command';
+import { AssignTagToPostCommand } from '../commands/assign-tag-to-post/assign-tag-to-post.command';
+import { RemoveTagFromPostCommand } from '../commands/remove-tag-from-post/remove-tag-from-post.command';
 
 @Injectable()
 export class PostService {
-  constructor(private readonly postRepository: PostRepository) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
   async create(
     createPostInput: CreatePostInput & { userId: string },
   ): Promise<Post> {
-    return await this.postRepository.create({
-      ...createPostInput,
-      authorId: createPostInput.userId,
-    });
+    return await this.commandBus.execute<CreatePostCommand, Post>(
+      new CreatePostCommand({
+        ...createPostInput,
+        authorId: createPostInput.userId,
+      }),
+    );
   }
 
   async findAll(
     findAllPostInput: FindAllPostInput | undefined,
   ): Promise<PostPagination> {
-    const result = await this.postRepository.findAll(findAllPostInput || {});
-    return result;
+    return await this.queryBus.execute<GetAllPostsQuery, PostPagination>(
+      new GetAllPostsQuery(findAllPostInput || {}),
+    );
   }
 
   async findOneOrFail(id: string): Promise<Post> {
-    const post = await this.postRepository.findOne(id);
+    const post = await this.queryBus.execute<GetPostByIdQuery, Post>(
+      new GetPostByIdQuery(id),
+    );
 
     if (!post) {
       throw new NotFoundException(`Post with id ${id} not found`);
@@ -46,59 +57,33 @@ export class PostService {
     updatePostInput: UpdatePostInput & { userId: string },
   ): Promise<Post> {
     const { id, userId } = updatePostInput;
-    const post = await this.postRepository.findOne(id);
 
-    if (!post) {
-      throw new NotFoundException(`Post with id ${id} not found`);
-    }
-
-    if (post.authorId !== userId) {
-      throw new UnauthorizedException();
-    }
-
-    return await this.postRepository.update(id, updatePostInput);
+    return await this.commandBus.execute<UpdatePostCommand, Post>(
+      new UpdatePostCommand(id, userId, updatePostInput),
+    );
   }
 
   async remove(removePostInput: RemovePostInput & { userId: string }) {
     const { id, userId } = removePostInput;
-    const post = await this.postRepository.findOne(id);
 
-    if (!post) {
-      throw new NotFoundException(`Post with id ${id} not found`);
-    }
-
-    if (post.authorId !== userId) {
-      throw new UnauthorizedException();
-    }
-    return await this.postRepository.delete(id);
+    return await this.commandBus.execute<RemovePostCommand, Post>(
+      new RemovePostCommand(id, userId),
+    );
   }
 
   async assignTag(assignTagInput: AssignTagInput & { userId: string }) {
     const { id, tagId, userId } = assignTagInput;
-    const post = await this.postRepository.findOne(id);
 
-    if (!post) {
-      throw new NotFoundException(`Post with id ${id} not found`);
-    }
-
-    if (post.authorId !== userId) {
-      throw new UnauthorizedException();
-    }
-    return await this.postRepository.assignTag(id, tagId);
+    return await this.commandBus.execute<AssignTagToPostCommand, Post>(
+      new AssignTagToPostCommand(id, tagId, userId),
+    );
   }
 
   async removeTag(removeTagInput: RemoveTagInput & { userId: string }) {
     const { id, tagId, userId } = removeTagInput;
 
-    const post = await this.postRepository.findOne(id);
-
-    if (!post) {
-      throw new NotFoundException(`Post with id ${id} not found`);
-    }
-
-    if (post.authorId !== userId) {
-      throw new UnauthorizedException();
-    }
-    return await this.postRepository.removeTag(id, tagId);
+    return await this.commandBus.execute<RemoveTagFromPostCommand, Post>(
+      new RemoveTagFromPostCommand(id, tagId, userId),
+    );
   }
 }

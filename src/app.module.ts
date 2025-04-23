@@ -16,6 +16,7 @@ import { PostModule } from './modules/post/post.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { join } from 'path';
       graphiql: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
+    CqrsModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [

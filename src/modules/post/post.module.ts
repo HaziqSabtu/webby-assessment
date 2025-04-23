@@ -11,6 +11,13 @@ import { TagRepository } from './repositories/tag.repository';
 import { TagPrismaRepository } from './repositories/tag.prisma.repository';
 
 import { UserModule } from '../user/user.module';
+import { GetPostByIdHandler } from './queries/get-post-by-id/get-post-by-id.handler';
+import { GetAllPostsHandler } from './queries/get-all-posts/get-all-posts.handler';
+import { CreatePostHandler } from './commands/create-post/create-post.handler';
+import { UpdatePostHandler } from './commands/update-post/update-post.handler';
+import { RemovePostHandler } from './commands/remove-post/remove-post.handler';
+import { AssignTagToPostHandler } from './commands/assign-tag-to-post/assign-tag-to-post.handler';
+import { RemoveTagFromPostHandler } from './commands/remove-tag-from-post/remove-tag-from-post.handler';
 
 @Module({
   imports: [UserModule],
@@ -27,6 +34,13 @@ import { UserModule } from '../user/user.module';
       provide: TagRepository,
       useClass: TagPrismaRepository,
     },
+    GetPostByIdHandler,
+    GetAllPostsHandler,
+    CreatePostHandler,
+    UpdatePostHandler,
+    RemovePostHandler,
+    AssignTagToPostHandler,
+    RemoveTagFromPostHandler,
   ],
 })
 export class PostModule {}
